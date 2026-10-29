@@ -1,4 +1,4 @@
-function doTransmit = pipe_iter(LoverR)
+function [doTransmit, r_exit, theta_exit] = pipe_iter(LoverR)
 %BLAH Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -70,10 +70,18 @@ iter = 1;
 
 %% Determine if transmitted
 
-if R(3)>0
+if R(3)>=LENGTH
     doTransmit = true;
+
+    % Step backward along V to z = LENGTH
+    R_exit = R + V * ((LENGTH - R(3)) / V(3));
+    
+    r_exit = norm(R_exit(1:2));
+    theta_exit = atan2(norm(V(1:2)), V(3));
 else
     doTransmit = false;
+    r_exit = NaN;
+    theta_exit = NaN;
 end
 
 end

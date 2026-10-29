@@ -1,6 +1,6 @@
 function [T, sigmaT, Nattempt, Ntransmit] = pip_conductance(L)
 
-targetRelErr = 0.01;
+targetRelErr = 0.001;
 targetTransmits = ceil(1/targetRelErr^2);
 
 batchSize = 5000;
@@ -14,7 +14,7 @@ while Ntransmit < targetTransmits && Nattempt < maxAttempts
     transmitBatch = false(batchSize,1);
 
     parfor i = 1:batchSize
-        transmitBatch(i) = pipe_iter(L);
+        [transmitBatch(i),~,~] = pipe_iter(L);
     end
 
     Ntransmit = Ntransmit + sum(transmitBatch);

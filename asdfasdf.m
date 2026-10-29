@@ -31,6 +31,8 @@ set(gca,'FontSize',14)
 set(gcf,'color','w')
 
 %% Save as an h5 file
+
+%{
 tic
 L=L(:);
 T=T(:);
@@ -79,3 +81,4 @@ h5writeatt(myname,"/Ntransmit","description","Number of tranmission events.");
 h5disp(myname);
 
 toc
+%}
