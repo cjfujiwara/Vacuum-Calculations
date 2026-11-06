@@ -1,4 +1,4 @@
-Npipes = 100;
+Npipes = 50;
 L = linspace(0,100,Npipes)';
 L(1)=.001;
 
@@ -15,21 +15,36 @@ end
 %%
 hf =figure(1);
 clf
-plot(L,T,'linewidth',1);
+
+
+pData=plot(L,T,'linewidth',2);
 hold on
+pS=plot(L,santeler(L),'--','linewidth',2)
 
-plot(L,4/3*(2./L),'r-','linewidth',1)
+pT=plot(L,4/3*(2./L),'k-','linewidth',2)
 
-legend({'monte carlo','theoretical limit'})
+santeler= @(L) 1./(1+3/8*L.*(1+1./(3+3/4*L)));
 
-xlabel('L/R');
-ylabel('tranmission probability')
+stringS = '$\mathcal{T}_s=\frac{1}{1+\frac{1}{\mathcal{T}_0}+\frac{1}{\frac{1}{3\mathcal{T}_0}+\frac{1}{7/8}}}$';
+
+legend([pData pT pS],...
+    {'Monte Carlo','Asymptoic $\mathcal{T}_0=\frac{3}{8}\frac{L}{R}$',...
+    ['Santeler $\mathcal{T}_s$~']},...
+    'interpreter','latex')
+
+xlabel('tube length $L/R$','interpreter','latex');
+ylabel('tranmission probability $\mathcal{P}$','interpreter','latex')
 
 set(gca,'YScale','log')
-title('Monte Carlo Conductance of Tube')
+title('Tube Conductance')
 set(gca,'FontSize',14)
 set(gcf,'color','w')
 
+ylim([1e-2 1]);
+grid on
+
+text(.5,5,'hi','interpreter','latex','horizontalalignment','left',...
+    'units','normalized','VerticalAlignment','bottom')
 %% Save as an h5 file
 
 %{
